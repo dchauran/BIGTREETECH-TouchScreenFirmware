@@ -248,7 +248,7 @@ void LCD_init_RGB(void)
   LCD_WR_DATA(0x02);
 
   LCD_WR_REG(0xF7);
-  LCD_WR_DATA(0x20);
+  LCD_WR_DATA(0x21);
 
   LCD_WR_REG(0xC0);    /// @diff Power control
   LCD_WR_DATA(0x25);   // VRH[5:0]

@@ -46,8 +46,8 @@
  */
 #define DEFAULT_LCD_BRIGHTNESS      11  // 11: LCD_100_PERCENT - Brightness value from list
 #define DEFAULT_LCD_IDLE_BRIGHTNESS 2   // 2: LCD_10_PERCENT - Brightness value from list
-#define DEFAULT_LCD_IDLE_TIMER      1   // 1: LCD_DIM_OFF
-#define LCD_DIM_CUSTOM_SECONDS      600 // Custom value in seconds. Will be used if
+#define DEFAULT_LCD_IDLE_TIMER      3   // 1: LCD_DIM_OFF
+#define LCD_DIM_CUSTOM_SECONDS      10 // Custom value in seconds. Will be used if
                                           // LCD_DIM_CUSTOM_SECONDS is set as idle timer.
 
 //===========================================================================
@@ -62,7 +62,7 @@
  * Options: BLACK, BLUE, BROWN, BRRED, CYAN, GBLUE, GRAY, GREEN, MAGENTA, RED, WHITE, YELLOW
  */
 #define ST7920_BKCOLOR BLACK
-#define ST7920_FNCOLOR YELLOW
+#define ST7920_FNCOLOR BLUE
 
 /**
  *  Text displayed at the top of the TFT in Marlin Mode.
@@ -75,7 +75,7 @@
  *  Options:  0: Disabled. RECOMMENDED FOR TFT24
  *            1: Enabled Marlin Fullscreen mode.
  */
-#define DEFAULT_ST7920_FULLSCREEN_MODE 0 // 0: Disabled. RECOMMENDED FOR TFT24
+#define DEFAULT_ST7920_FULLSCREEN_MODE 1 // 0: Disabled. RECOMMENDED FOR TFT24
 
 /**
  * Clean Mode Switching Support
@@ -299,8 +299,8 @@
 #define CUSTOM_5_GCODE "M501\n"
 #define CUSTOM_6_LABEL "EEPROM Defaults"
 #define CUSTOM_6_GCODE "M502\n"
-//#define CUSTOM_7_LABEL "Custom7"
-//#define CUSTOM_7_GCODE "M105\n"
+#define CUSTOM_7_LABEL "Get Endsop State"
+#define CUSTOM_7_GCODE "M43 E1\n"
 //#define CUSTOM_8_LABEL "Custom8"
 //#define CUSTOM_8_GCODE "M105\n"
 //#define CUSTOM_9_LABEL "Custom9"
