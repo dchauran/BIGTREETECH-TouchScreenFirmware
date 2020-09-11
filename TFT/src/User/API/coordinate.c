@@ -1,18 +1,20 @@
 #include "coordinate.h"
 #include "string.h"
-#include "Configuration.h"
-#include "Parametersetting.h"
+#include "includes.h"
 
-const char axis_id[TOTAL_AXIS]={'X','Y','Z','E'};
+const char axis_id[TOTAL_AXIS] = {'X', 'Y', 'Z', 'E'};
 
-COORDINATE targetPosition={{0.0f,0.0f,0.0f,0.0f},3000};
+static COORDINATE targetPosition = {{0.0f, 0.0f, 0.0f, 0.0f}, 3000};
+
+static COORDINATE curPosition = {{0.0f, 0.0f, 0.0f, 0.0f}, 3000};
 
 //
 static bool relative_mode = false;
 static bool relative_e = false;
-// false means current position is not clear
+// false means current position is unknown
 // false after M18/M84 disable stepper or power up, true after G28
-static bool position_cleared = false;
+static bool position_known = false;
+static bool queryWait = false;
 
 bool coorGetRelative(void)
 {
@@ -34,14 +36,14 @@ void eSetRelative(bool mode)
   relative_e = mode;
 }
 
-bool coordinateIsClear(void)
+bool coordinateIsKnown(void)
 {
-  return position_cleared;
+  return position_known;
 }
 
-void coordinateSetClear(bool clear)
+void coordinateSetKnown(bool known)
 {
-  position_cleared = clear;
+  position_known = known;
 }
 
 void coordinateSetAxisTarget(AXIS axis,float position)
@@ -80,15 +82,34 @@ void coordinateGetAll(COORDINATE *tmp)
   memcpy(tmp, &targetPosition, sizeof(targetPosition));
 }
 
-
-COORDINATE curPosition={{0.0f,0.0f,0.0f,0.0f},3000};
-
 void coordinateSetAxisActualSteps(AXIS axis, int steps)
 {
   curPosition.axis[axis] = steps / getParameter(P_STEPS_PER_MM, E_AXIS);
 }
 
+void coordinateSetAxisActual(AXIS axis, float position)
+{
+  curPosition.axis[axis] = position;
+}
+
 float coordinateGetAxisActual(AXIS axis)
 {
   return curPosition.axis[axis];
+}
+
+void coordinateQuerySetWait(bool wait)
+{
+  queryWait = wait;
+}
+
+void coordinateQuery(void)
+{
+  if (infoHost.connected == true && infoHost.wait == false)
+  {
+    if (!queryWait)
+    {
+      storeCmd("M114\n");
+      queryWait = true;
+    }
+  }
 }

@@ -9,12 +9,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "my_misc.h"
+#include "printf/printf.h"
 
 #include "os_timer.h"
 #include "delay.h"
 
 #include "boot.h"
 
+#include "Colors.h"
 #include "lcd.h"
 #include "LCD_Init.h"
 #include "lcd_dma.h"
@@ -26,7 +28,9 @@
 #include "Serial.h"
 #include "spi.h"
 #include "sw_spi.h"
+#include "CircularQueue.h"
 #include "spi_slave.h"
+#include "timer_pwm.h"
 
 #include "usbh_core.h"
 #include "usbh_usr.h"
@@ -39,6 +43,7 @@
 
 #include "LCD_Encoder.h"
 #include "ST7920_Simulator.h"
+#include "HD44780_Simulator.h"
 #include "ui_draw.h"
 #include "touch_process.h"
 #include "interfaceCmd.h"
@@ -51,16 +56,27 @@
 #include "flashStore.h"
 #include "parseACK.h"
 #include "Selectmode.h"
-#include "Parametersetting.h"
+#include "MarlinMode.h"
+#include "Temperature.h"
+#include "Settings.h"
+#include "Printing.h"
+#include "MachineParameters.h"
+#include "FanControl.h"
+#include "SpeedControl.h"
 
 #include "extend.h"
+#include "menu.h"
+#include "list_item.h"
+#include "list_widget.h"
+#include "Popup.h"
+#include "Numpad.h"
+#include "Notification.h"
 #include "SanityCheck.h"
 
 //menu
-#include "menu.h"
 #include "MainPage.h"
-#include "PreheatMenu.h"
 #include "Heat.h"
+#include "PreheatMenu.h"
 #include "Move.h"
 #include "Home.h"
 #include "Print.h"
@@ -69,25 +85,32 @@
 #include "Speed.h"
 #include "BabyStep.h"
 #include "ledcolor.h"
+#include "Parametersetting.h"
 
 #include "Extrude.h"
 #include "Fan.h"
-#include "Settings.h"
+#include "SettingsMenu.h"
+#include "PrintingMenu.h"
 #include "ScreenSettings.h"
 #include "MachineSettings.h"
 #include "FeatureSettings.h"
 #include "SendGcode.h"
 #include "leveling.h"
+#include "UBLSaveLoad.h"
+#include "BLTouch.h"
 #include "ProbeOffset.h"
 #include "PowerFailed.h"
 
-#include "Popup.h"
 #include "Mode.h"
 
 #include "UnifiedMove.h"
 #include "UnifiedHeat.h"
 #include "StatusScreen.h"
-#include "list_item.h"
+
+#include "Tuning.h"
+#include "Pid.h"
+#include "TuneExtruder.h"
+#include "ConnectionSettings.h"
 
 #define MAX_MENU_DEPTH 10       // max sub menu depth
 typedef void (*FP_MENU)(void);
@@ -109,5 +132,13 @@ typedef struct
 }HOST;
 
 extern HOST infoHost;
+
+typedef struct
+{
+  RCC_ClocksTypeDef rccClocks;
+  u32 PCLK1_Timer_Frequency;
+  u32 PCLK2_Timer_Frequency;
+}CLOCKS;
+extern CLOCKS mcuClocks;
 
 #endif
