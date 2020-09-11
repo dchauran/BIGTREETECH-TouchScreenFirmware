@@ -68,7 +68,7 @@
 /**
  * Text displayed at the top of the TFT in Marlin Mode.
  */
-#define MARLIN_BANNER_TEXT "LCD12864 Simulator"
+#define MARLIN_BANNER_TEXT "MaRlIn MoDe!"
 
 /**
  * show banner text at the top of the TFT in Marlin Mode.
