@@ -25,8 +25,8 @@
  *
  * Default value is: 1 for LED_OFF
 */
-#define STARTUP_KNOB_LED_COLOR 8         // LED_OFF
-#define KEEP_KNOB_LED_COLOR_MARLIN_MODE  // Keeps the LED state in Marlin Mode
+//#define STARTUP_KNOB_LED_COLOR 8         // LED_OFF
+//#define KEEP_KNOB_LED_COLOR_MARLIN_MODE  // Keeps the LED state in Marlin Mode
 
 /**
  * Default LCD Brightness and LCD IDLE Brightness
