@@ -172,9 +172,9 @@
 #define FAN_NUM      1    // set in 1~6
 #define FAN_CTRL_NUM 0    // set in 1~2
 
-#define PREHEAT_LABELS   {"PLA", "PETG", "ABS", "WOOD", "TPU", "NYLON"}
-#define PREHEAT_HOTEND   {200,   240,    230,   170,    220,   250}
-#define PREHEAT_BED      {60,    70,     90,    50,     50,    90}
+#define PREHEAT_LABELS   {"PLA", "PLA+", "ABS", "POLY", "NYLON", "TPU"}
+#define PREHEAT_HOTEND   {210,   230,    230,   300,    250,     220}
+#define PREHEAT_BED      {65,    65,     110,   130,    110,     50}
 
 #define HEAT_MAX_TEMP    {305,       275,       275,       275,       275,       275,       150,    60}   //max temperature can be set
 #define HEAT_SIGN_ID     {"T0:",     "T1:",     "T2:",     "T3:",     "T4:",     "T5:",     "B:",   "C:"}
@@ -214,11 +214,11 @@
 #define EXTRUDE_FAST_SPEED   1200
 
 // Size of machine
-#define X_MIN_POS -131
-#define Y_MIN_POS -131
-#define Z_MIN_POS -5
-#define X_MAX_POS 131
-#define Y_MAX_POS 131
+#define X_MIN_POS -130
+#define Y_MIN_POS -130
+#define Z_MIN_POS -25
+#define X_MAX_POS 130
+#define Y_MAX_POS 130
 #define Z_MAX_POS 372
 
 // Specify a pause position as { X, Y, Z_raise }
@@ -226,7 +226,7 @@
 #define NOZZLE_RESUME_PURGE_LENGTH  16   // (mm)
 #define NOZZLE_PAUSE_X_POSITION     (X_MIN_POS + 10)  // (mm) Must be an integer
 #define NOZZLE_PAUSE_Y_POSITION     (Y_MIN_POS + 10)  // (mm) Must be an integer
-#define NOZZLE_PAUSE_Z_RAISE        20   // (mm)
+#define NOZZLE_PAUSE_Z_RAISE        10   // (mm)
 #define NOZZLE_PAUSE_E_FEEDRATE     6000 // (mm/min) retract & purge feedrate
 #define NOZZLE_PAUSE_XY_FEEDRATE    6000 // (mm/min) X and Y axes feedrate
 #define NOZZLE_PAUSE_Z_FEEDRATE     600  // (mm/min) Z axis feedrate
@@ -281,9 +281,9 @@
  * Manual Leveling
  * Move to four corner points to Leveling manually (Point 1, Point 2, Point 3, Point 4)
  */
-#define LEVELING_EDGE_DISTANCE     20    // Inset distance from bed's edge for calculating leveling point location.
+#define LEVELING_EDGE_DISTANCE     10    // Inset distance from bed's edge for calculating leveling point location.
 #define LEVELING_POINT_Z           0.2f  // Z-axis position when nozzle stays for leveling
-#define LEVELING_POINT_MOVE_Z      10.0f // Z-axis position when nozzle move to next point
+#define LEVELING_POINT_MOVE_Z      30.0f // Z-axis position when nozzle move to next point
 #define LEVELING_POINT_XY_FEEDRATE 6000  // (mm/min) X and Y axes move feedrate
 #define LEVELING_POINT_Z_FEEDRATE  600   // (mm/min) Z axis move feedrate
 
@@ -307,9 +307,9 @@
 /**
  * Probe Offset
  */
-#define PROBE_OFFSET_MIN_VALUE     -20.0f
-#define PROBE_OFFSET_MAX_VALUE     20.0f
-#define PROBE_OFFSET_DEFAULT_VALUE 0.0f
+#define PROBE_OFFSET_MIN_VALUE     -30.0f
+#define PROBE_OFFSET_MAX_VALUE     5.0f
+#define PROBE_OFFSET_DEFAULT_VALUE 20.3f
 
 /**
  * Babystep
@@ -364,7 +364,7 @@
  * Most suitable for Delta printers since most printers will crash into printed model when homing after powerloss.
  */
 // Home before power loss recovery
-#define HOME_BEFORE_PLR false   //to enabled: true | to disabled: false
+#define HOME_BEFORE_PLR true   //to enabled: true | to disabled: false
 
 // Backup power / UPS to move Z axis on power loss
 #define BTT_MINI_UPS    false   //to enabled: true | to disabled: false
@@ -441,12 +441,12 @@
  * Enable Start & End G-code in SETTINGS -> FEATURE menu.
  */
 // Start G-code - run this G-code before starting print
-#define PRINT_START_GCODE "G28\n" // Raise Z 10mm before homing X & Y
+#define PRINT_START_GCODE "G28\n" // Home
 
 // End G-code - run this G-code after finishing print
-#define PRINT_END_GCODE "G90\nG1 E-4\nG92 E0\nM18\n" // Switch to absolute positioning, reduce filament pressure by performing small retract, reset extruder position, disable steppers
+#define PRINT_END_GCODE "G90\nG1 E-4\nG92 E0\nM18\nM104 S0\nM140 S0\nG28\nM18\n" // Switch to absolute positioning, reduce filament pressure by performing small retract, reset extruder position, turn off heaters, home, disable steppers
 
 // Cancel G-code - run this G-code after canceling print
-#define PRINT_CANCEL_GCODE "G28\n" // Home XY and raise Z 10mm
+#define PRINT_CANCEL_GCODE "G28\n" // Home
 
 #endif
